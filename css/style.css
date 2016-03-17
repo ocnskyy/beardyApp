@@ -1,0 +1,14 @@
+﻿.container {
+	height: 100%;
+	/* display:flex;
+	justify-content:center;
+	align-items:center; */
+}
+
+.login-form {
+	margin-top: 30vh;
+}
+
+.login-form > div {
+	text-align: center;
+}

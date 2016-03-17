@@ -1,0 +1,60 @@
+﻿<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="page-header">
+						<h1>
+							Beardy App Login
+						</h1>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+
+							<label for="login" class="col-sm-2 control-label">
+								Login
+							</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="login" ng-model="login">
+							</div>
+						</div>
+						<div class="form-group">
+
+							<label for="password" class="col-sm-2 control-label">
+								Password
+							</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="password" ng-model="password">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<div class="checkbox">
+
+									<label>
+										<input type="checkbox" ng-model="remember"> Remember me
+									</label>
+								</div><br>
+								<a href="#/register">Not registered?</a><br>
+								<a href="#/restore">Forgot password?</a>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+
+								<button type="submit" class="btn btn-default" ng-click="loginMe()">
+									Sign in
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
