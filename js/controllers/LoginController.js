@@ -4,6 +4,7 @@ beardyApp.controller('LoginController', ['$scope', '$http', '$state', function($
 	function userLoggedIn( user ) {
 		$state.go('main');
 		console.log(user);
+		localStorage.setItem('current_user', $scope.login);
 	}
 
 	function gotError( err ) {

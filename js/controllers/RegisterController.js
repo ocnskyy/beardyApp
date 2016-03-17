@@ -1,20 +1,6 @@
 beardyApp.controller('RegisterController', ['$scope', '$http', '$state', function($scope, $http, $state){
    console.log('its register controller');
 
-   function userRegistered( user ) {
-     console.log( "user has been registered" );
-     $state.go('login');
-   }
-
-   function fileCreated (response) {
-      console.log('file uploaded, horey', response);
-   }
-
-   function gotError( err ) {
-     console.log( "error message - " + err.message );
-     console.log( "error code - " + err.statusCode );
-   }
-
    $scope.registerMe = function() {
       console.log('registration');
 
@@ -34,7 +20,21 @@ beardyApp.controller('RegisterController', ['$scope', '$http', '$state', functio
       console.log(file);
 
       Backendless.Files.upload( file, $scope.name, true, new Backendless.Async( fileCreated, gotError ) );
-      Backendless.UserService.register( user, new Backendless.Async( userRegistered, gotError ) );
+
+      function fileCreated (response) {
+         console.log('file uploaded, horey', response);
+         Backendless.UserService.register( user, new Backendless.Async( userRegistered, gotError ) );
+      }
    };
+
+   function userRegistered( user ) {
+     console.log( "user has been registered" );
+     $state.go('login');
+   }
+
+   function gotError( err ) {
+     console.log( "error message - " + err.message );
+     console.log( "error code - " + err.statusCode );
+   }
 
 }]);
