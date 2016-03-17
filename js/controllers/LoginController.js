@@ -20,4 +20,6 @@ beardyApp.controller('LoginController', ['$scope', '$http', '$state', function($
 		Backendless.UserService.login(username, password, remember, new Backendless.Async(userLoggedIn, gotError));
 	};
 
+	console.log('blabla');
+
 }]);
