@@ -16,3 +16,7 @@ For Development do
 ```sh
 $ gulp watch
 ```
+And in seperate terminal do
+```sh
+$ http-server
+```
