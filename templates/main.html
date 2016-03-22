@@ -2,8 +2,8 @@
 	<div class="row">
 		<div class="col-md-12">
 
-         <div class="row">
-				<div class="col-md-12">
+		     <div class="row">
+		     	<div class="col-md-12">
 					<div class="page-header text-center">
 						<h1>
 							Beardy App Main
@@ -12,27 +12,13 @@
 				</div>
 			</div>
 
-         <div class="row">
-				<div class="col-md-12">
-				<input type="file" name="Upload some file" name="files[]" id="files">
-				<input type="button" ng-click="uploadFile()" value="Upload File">
-					<!-- {{yo}} -->
-					<!-- {{fileList.length}} -->
-					<ul>
-						<li ng-repeat="file in fileList">
-						<input type="checkbox" ng-click="addFile(file)" />
-						<a href="{{file.publicUrl}}" target="_blank">{{file.name}}</a> - 
-						<a href="{{file.publicUrl}}" download="text.txt">Download</a>
-						<button ng-click="deleteFile(this)" name="{{file.name}}">delete file</button>
-						</li>
-					</ul>
-					<input type="text" ng-model="sharedUser" placeholder="enter the user">
-					
-					<button ng-click="share()">Share</button>
-				</div>
+		 	<div class="row">
+		 		<button ng-click="goToFile()">Got to File Manager</button>
+		 		<button ng-click="goToGeo()">Got to Geo Manager</button>
+
+				<button ng-click="logOut()">Exit</button>
 			</div>
-			<button ng-click="logOut()">Exit</button>
-			<button ng-click="multyDelete()">Delete multiply files</button>
+			
 
 		</div>
 	</div>

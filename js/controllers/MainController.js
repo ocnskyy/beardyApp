@@ -1,15 +1,27 @@
 beardyApp.controller('MainController', ['$scope', '$http', '$state', function($scope, $http, $state) {
    console.log('its main controller');
    var current_user = localStorage.getItem('current_user');
-   $scope.fileList = [];
-   // Backendless.Files.listing( current_user, new Backendless.Async(gotFiles, gotError) );
 
-   var tmpObj = Backendless.Files.listing(current_user).data;
-   console.log('yoyo', tmpObj);
-   $scope.fileList = tmpObj;
+   $scope.goToFile = function() {
+   	$state.go('file');
+   };
 
-   console.log('here', $scope.fileList);
+   $scope.goToGeo = function() {
+   	$state.go('geo');
+   };
 
-
+   $scope.logOut = function() {
+	   localStorage.removeItem('current_user');
+	   function userLoggedout(obj) {
+		   console.log(obj);
+		   $state.go('login');
+	   }
+	   
+		function gotError(obj) {
+			console.log(obj);
+		}
+	   
+	   Backendless.UserService.logout( new Backendless.Async( userLoggedout, gotError ) );
+   };
 
 }]);

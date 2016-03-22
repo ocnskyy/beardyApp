@@ -8,34 +8,8 @@ Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
 
 var beardyApp = angular.module('beardyApp', ['ui.router']);
 
-beardyApp.controller('LoginController', ['$scope', '$http', '$state', function($scope, $http, $state){
-	console.log('its login controller');
-
-	function userLoggedIn( user ) {
-		$state.go('main');
-		console.log(user);
-		localStorage.setItem('current_user', $scope.login);
-	}
-
-	function gotError( err ) {
-		console.log( "error message - " + err.message );
-		console.log( "error code - " + err.statusCode );
-	}
-
-	$scope.loginMe = function() {
-		var username = $scope.login;
-		var password = $scope.password;
-		var remember = $scope.remember;
-		console.log(username, password, remember);
-		Backendless.UserService.login(username, password, remember, new Backendless.Async(userLoggedIn, gotError));
-	};
-
-	console.log('blabla');
-
-}]);
-
-beardyApp.controller('MainController', ['$scope', '$http', '$state', function($scope, $http, $state) {
-   console.log('its main controller');
+beardyApp.controller('FileController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+   console.log('its file controller');
    var current_user = localStorage.getItem('current_user');
    $scope.fileList = [];
    $scope.sharedUser;
@@ -193,6 +167,49 @@ beardyApp.controller('MainController', ['$scope', '$http', '$state', function($s
 
    console.log('here', $scope.fileList);
    
+}]);
+beardyApp.controller('FileController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+	console.log('its geo controller');
+	
+}]);
+beardyApp.controller('LoginController', ['$scope', '$http', '$state', function($scope, $http, $state){
+	console.log('its login controller');
+
+	function userLoggedIn( user ) {
+		$state.go('main');
+		console.log(user);
+		localStorage.setItem('current_user', $scope.login);
+	}
+
+	function gotError( err ) {
+		console.log( "error message - " + err.message );
+		console.log( "error code - " + err.statusCode );
+	}
+
+	$scope.loginMe = function() {
+		var username = $scope.login;
+		var password = $scope.password;
+		var remember = $scope.remember;
+		console.log(username, password, remember);
+		Backendless.UserService.login(username, password, remember, new Backendless.Async(userLoggedIn, gotError));
+	};
+
+	console.log('blabla');
+
+}]);
+
+beardyApp.controller('MainController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+   console.log('its main controller');
+   var current_user = localStorage.getItem('current_user');
+
+   $scope.goToFile = function() {
+   	$state.go('file');
+   };
+
+   $scope.goToGeo = function() {
+   	$state.go('geo');
+   };
+
    $scope.logOut = function() {
 	   localStorage.removeItem('current_user');
 	   function userLoggedout(obj) {
@@ -206,9 +223,6 @@ beardyApp.controller('MainController', ['$scope', '$http', '$state', function($s
 	   
 	   Backendless.UserService.logout( new Backendless.Async( userLoggedout, gotError ) );
    };
-   
-
-
 
 }]);
 
@@ -285,26 +299,38 @@ beardyApp.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 		.state('login', {
 			url: '/login',
 			// template: "<p>login</p>",
-			templateUrl: './templates/login.html',
+			templateUrl: '/templates/login.html',
 			controller: 'LoginController'
 		})
 		.state('register', {
 			url: '/register',
 			// template: "<p>login</p>",
-			templateUrl: './templates/register.html',
+			templateUrl: '/templates/register.html',
 			controller: 'RegisterController'
 		})
 		.state('restore', {
 			url: '/restore',
 			// template: "<p>login</p>",
-			templateUrl: './templates/restore.html',
+			templateUrl: '/templates/restore.html',
 			controller: 'RestoreController'
 		})
 		.state('main', {
 			url: '/main',
 			// template: "<p>login</p>",
-			templateUrl: './templates/main.html',
+			templateUrl: '/templates/main.html',
 			controller: 'MainController'
+		})
+		.state('file', {
+			url: '/file',
+			// template: "<p>login</p>",
+			templateUrl: '/templates/file.html',
+			controller: 'FileController'
+		})
+		.state('geo', {
+			url: '/geo',
+			// template: "<p>login</p>",
+			templateUrl: '/templates/geo.html',
+			controller: 'GeoController'
 		});
 
 });
