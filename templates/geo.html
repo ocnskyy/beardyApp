@@ -10,7 +10,55 @@
 						</h1>
 					</div>
 				</div>
-			</div>			
+			</div>
+
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+							<div class="form-group">
+							  <label for="sel1">Select category:</label>
+							  <select class="form-control" id="sel1" ng-model="place.category" ng-change="getPlaces('category')">
+							    <option ng-repeat="place in places">{{place.category}}</option>
+							  </select>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<div class="form-group">
+			               <label for="name">Hash tag:</label>
+			               <input type="text" class="form-control" id="name_input" ng-model="place.hash">
+			            </div>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<label for="name">Current location:</label>
+							<button type="button" name="button" class="btn btn-default">Define</button>
+						</div>
+						<div class="col-md-12 col-sm-12">
+							<button type="button" name="button" style="btn btn-default" ng-click="getPlaces()">Get Places</button>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="col-md-3 col-sm-3" ng-repeat="place in placesAccepted" style="margin-bottom: 25px;">
+							<img ng-src="{{place.image}}" alt="" class="img-responsive" />
+							Category: {{place.category}}<br>
+							Description: {{place.description}}
+							{{place.hashInformation}}
+						</div>
+					</div>
+					<!-- <div class="row">
+						<div class="col-md-3 col-sm-3" ng-repeat="place in places" style="margin-bottom: 25px;">
+							<img ng-src="{{place.image}}" alt="" class="img-responsive" />
+							Category: {{place.category}}<br>
+							Description: {{place.description}}
+							{{place.hashInformation}}
+						</div>
+					</div> -->
+					<!-- <div id="googleMap" style="width:500px;height:380px;"></div> -->
+				</div>
+			</div>
 
 		</div>
 	</div>
