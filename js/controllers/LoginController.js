@@ -1,4 +1,4 @@
-beardyApp.controller('LoginController', ['$scope', '$http', '$state', function($scope, $http, $state){
+beardyApp.controller('LoginController', ['$scope', '$state', function($scope, $state){
 	console.log('its login controller');
 
 	function userLoggedIn( user ) {

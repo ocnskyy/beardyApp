@@ -1,4 +1,4 @@
-beardyApp.controller('FileController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+beardyApp.controller('FileController', ['$scope', '$state', function($scope, $state) {
    console.log('its file controller');
    var current_user = localStorage.getItem('current_user');
    $scope.fileList = [];

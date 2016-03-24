@@ -38,6 +38,12 @@ beardyApp.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 			templateUrl: '/templates/file.html',
 			controller: 'FileController'
 		})
+		.state('user', {
+			url: '/user',
+			// template: "<p>login</p>",
+			templateUrl: '/templates/user.html',
+			controller: 'UserController'
+		})
 		.state('geo', {
 			url: '/geo',
 			// template: "<p>login</p>",

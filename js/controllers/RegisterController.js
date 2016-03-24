@@ -1,4 +1,4 @@
-beardyApp.controller('RegisterController', ['$scope', '$http', '$state', function($scope, $http, $state){
+beardyApp.controller('RegisterController', ['$scope', '$state', function($scope, $state){
    console.log('its register controller');
 
    $scope.registerMe = function() {

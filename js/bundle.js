@@ -8,7 +8,7 @@ Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
 
 var beardyApp = angular.module('beardyApp', ['ui.router']);
 
-beardyApp.controller('FileController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+beardyApp.controller('FileController', ['$scope', '$state', function($scope, $state) {
    console.log('its file controller');
    var current_user = localStorage.getItem('current_user');
    $scope.fileList = [];
@@ -169,12 +169,12 @@ beardyApp.controller('FileController', ['$scope', '$http', '$state', function($s
 
 }]);
 
-beardyApp.controller('GeoController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+beardyApp.controller('GeoController', ['$scope', '$state', function($scope, $state) {
 	console.log('its geo controller');
 
 }]);
 
-beardyApp.controller('LoginController', ['$scope', '$http', '$state', function($scope, $http, $state){
+beardyApp.controller('LoginController', ['$scope', '$state', function($scope, $state){
 	console.log('its login controller');
 
 	function userLoggedIn( user ) {
@@ -200,7 +200,7 @@ beardyApp.controller('LoginController', ['$scope', '$http', '$state', function($
 
 }]);
 
-beardyApp.controller('MainController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+beardyApp.controller('MainController', ['$scope', '$state', function($scope, $state) {
    console.log('its main controller');
    var current_user = localStorage.getItem('current_user');
 
@@ -212,23 +212,28 @@ beardyApp.controller('MainController', ['$scope', '$http', '$state', function($s
    	$state.go('geo');
    };
 
+   $scope.goToUser = function() {
+      $state.go('user');
+   };
+
+
    $scope.logOut = function() {
 	   localStorage.removeItem('current_user');
 	   function userLoggedout(obj) {
 		   console.log(obj);
 		   $state.go('login');
 	   }
-	   
+
 		function gotError(obj) {
 			console.log(obj);
 		}
-	   
+
 	   Backendless.UserService.logout( new Backendless.Async( userLoggedout, gotError ) );
    };
 
 }]);
 
-beardyApp.controller('RegisterController', ['$scope', '$http', '$state', function($scope, $http, $state){
+beardyApp.controller('RegisterController', ['$scope', '$state', function($scope, $state){
    console.log('its register controller');
 
    $scope.registerMe = function() {
@@ -269,7 +274,7 @@ beardyApp.controller('RegisterController', ['$scope', '$http', '$state', functio
 
 }]);
 
-beardyApp.controller('RestoreController', ['$scope', '$http', '$state', function($scope, $http, $state){
+beardyApp.controller('RestoreController', ['$scope', '$state', function($scope, $state){
    console.log('its restore controller');
 
    function passwordRecoverySent( user ) {
@@ -284,6 +289,59 @@ beardyApp.controller('RestoreController', ['$scope', '$http', '$state', function
    $scope.restoreMe = function() {
       var async = new Backendless.Async( passwordRecoverySent, gotError );
       Backendless.UserService.restorePassword( $scope.login, async );
+   };
+
+}]);
+
+beardyApp.controller('UserController', ['$scope', '$state', function($scope, $state) {
+	console.log('its user controller');
+
+   $scope.user = Backendless.UserService.getCurrentUser();
+   console.log($scope.user);
+
+   $scope.changeInput = function(obj) {
+      $('#'+obj.target.attributes.id.value+'_input').prop('disabled', false);
+   };
+
+   $scope.avatars = [];
+   $scope.changeAvatar = function() {
+      var files = Backendless.Files.listing($scope.user.name).data;
+      console.log('files', files);
+
+      for (var i = 0; i < files.length; i++) {
+         if (files[i].name.substr(files[i].name.length - 3) === 'png' ||
+            files[i].name.substr(files[i].name.length - 3) === 'jpg' ||
+            files[i].name.substr(files[i].name.length - 4) === 'jpeg') {
+               $scope.avatars.push(files[i]);
+            }
+      }
+      console.log('here', $scope.avatars);
+      $('#avatar_list').removeClass('hidden');
+      // console.log(files.filter(function(element) {
+      //    element.name.substr(element.name.length - 3) === 'png' ||
+      //    element.name.substr(element.name.length - 3) === 'jpg' ||
+      //    element.name.substr(element.name.length - 4) === 'jpeg'
+      // });
+   };
+
+   function userUpdated(user) {
+      $scope.user = user;
+      console.log('updated', $scope.user);
+      $state.go('main');
+   }
+   function gotError(err) {
+     console.log( "error message - " + err.message );
+     console.log( "error code - " + err.statusCode );
+   }
+   
+   $scope.pickPicture = function(obj) {
+      console.log(obj.target.src);
+      $scope.user.avatar = obj.target.src;
+      Backendless.UserService.update( $scope.user, new Backendless.Async( userUpdated, gotError ) );
+   };
+
+   $scope.updateUser = function() {
+      Backendless.UserService.update( $scope.user, new Backendless.Async( userUpdated, gotError ) );
    };
 
 }]);
@@ -327,6 +385,12 @@ beardyApp.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 			// template: "<p>login</p>",
 			templateUrl: '/templates/file.html',
 			controller: 'FileController'
+		})
+		.state('user', {
+			url: '/user',
+			// template: "<p>login</p>",
+			templateUrl: '/templates/user.html',
+			controller: 'UserController'
 		})
 		.state('geo', {
 			url: '/geo',

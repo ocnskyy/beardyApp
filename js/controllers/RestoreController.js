@@ -1,4 +1,4 @@
-beardyApp.controller('RestoreController', ['$scope', '$http', '$state', function($scope, $http, $state){
+beardyApp.controller('RestoreController', ['$scope', '$state', function($scope, $state){
    console.log('its restore controller');
 
    function passwordRecoverySent( user ) {
