@@ -25,5 +25,6 @@ Run on http://localhost:8080
 ### Development
 All code is separated for controllers and config, gulp will concat it all to bundle.js. To activate automatic gulp listener, do:
 ```sh
+$ npm install
 $ gulp watch
 ```
