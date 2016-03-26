@@ -14,6 +14,10 @@ beardyApp.controller('MainController', ['$scope', '$state', function($scope, $st
       $state.go('user');
    };
 
+   $scope.goToMessage = function() {
+      $state.go('message');
+   };
+
 
    $scope.logOut = function() {
 	   localStorage.removeItem('current_user');

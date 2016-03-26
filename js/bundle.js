@@ -190,6 +190,7 @@ beardyApp.controller('GeoController', ['$scope', '$state', function($scope, $sta
 		for (var j = 0; j < likes.length; j++) {
 			if ($scope.user.objectId === likes[j].userId) {
 				$scope.places[i].userLike = true;
+				break;
 			}
 			else {
 				$scope.places[i].userLike = false;
@@ -312,9 +313,11 @@ beardyApp.controller('GeoController', ['$scope', '$state', function($scope, $sta
 		};
 		// if (place.user)
 		if (place.userLike) {
-			var yo = {condition: "placeId = '" + place.objectId + "', userId = '" + $scope.user.objectId + "'"};
-			var savedObj = Backendless.Persistence.of( 'PlaceLike12' ).find( yo );
-			Backendless.Persistence.of( 'PlaceLike12' ).remove( savedObj );
+			var yo = {
+				condition: "placeId = '" + place.objectId + "' AND userId = '" + $scope.user.objectId + "'"
+			};
+			var savedObj = Backendless.Persistence.of( 'PlaceLike12' ).find( yo ).data;
+			Backendless.Persistence.of( 'PlaceLike12' ).remove( savedObj[0] );
 			$scope.placesAccepted[index].userLike = false;
 			$scope.placesAccepted[index].likes - 1;
 			for (var i = 0; i < $scope.places.length; i++) {
@@ -351,6 +354,14 @@ beardyApp.controller('LoginController', ['$scope', '$state', function($scope, $s
 	function gotError( err ) {
 		console.log( "error message - " + err.message );
 		console.log( "error code - " + err.statusCode );
+		var message = err.message + '\n';
+		var loggerName = 'logger_controller';
+		Backendless.Logging.getLogger(loggerName).debug(message);
+		Backendless.Logging.getLogger(loggerName).info(message);
+		Backendless.Logging.getLogger(loggerName).warn(message);
+		Backendless.Logging.getLogger(loggerName).error(message);
+		Backendless.Logging.getLogger(loggerName).fatal(message);
+		Backendless.Logging.getLogger(loggerName).trace(message);
 	}
 
 	$scope.loginMe = function() {
@@ -381,6 +392,10 @@ beardyApp.controller('MainController', ['$scope', '$state', function($scope, $st
       $state.go('user');
    };
 
+   $scope.goToMessage = function() {
+      $state.go('message');
+   };
+
 
    $scope.logOut = function() {
 	   localStorage.removeItem('current_user');
@@ -395,6 +410,33 @@ beardyApp.controller('MainController', ['$scope', '$state', function($scope, $st
 
 	   Backendless.UserService.logout( new Backendless.Async( userLoggedout, gotError ) );
    };
+
+}]);
+
+beardyApp.controller('MessageController', ['$scope', '$state', function($scope, $state) {
+	console.log('its message controller');
+
+	$scope.user = Backendless.UserService.getCurrentUser();
+	console.log('user', $scope.user);
+
+	$scope.sendMail = function() {
+		console.log('theme', $scope.message.theme);
+		console.log('body', $scope.message.body);
+		console.log('user', $scope.message.user);
+		var recipients = [$scope.message.user];
+		var bodyParts = new Bodyparts();
+		bodyParts.textmessage = $scope.message.body;
+		var att = null;
+		function send(obj) {
+			console.log('success', obj);
+			$state.go('main');
+		}
+		function error(obj) {
+			console.log(obj.status);
+			console.log(obj.message);
+		}
+		Backendless.Messaging.sendEmail($scope.message.theme, bodyParts, recipients, att, new Backendless.Async(send, error));
+	};
 
 }]);
 
@@ -556,6 +598,12 @@ beardyApp.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 			// template: "<p>login</p>",
 			templateUrl: '/templates/user.html',
 			controller: 'UserController'
+		})
+		.state('message', {
+			url: '/message',
+			// template: "<p>login</p>",
+			templateUrl: '/templates/message.html',
+			controller: 'MessageController'
 		})
 		.state('geo', {
 			url: '/geo',

@@ -19,6 +19,7 @@ beardyApp.controller('GeoController', ['$scope', '$state', function($scope, $sta
 		for (var j = 0; j < likes.length; j++) {
 			if ($scope.user.objectId === likes[j].userId) {
 				$scope.places[i].userLike = true;
+				break;
 			}
 			else {
 				$scope.places[i].userLike = false;
@@ -141,9 +142,11 @@ beardyApp.controller('GeoController', ['$scope', '$state', function($scope, $sta
 		};
 		// if (place.user)
 		if (place.userLike) {
-			var yo = {condition: "placeId = '" + place.objectId + "', userId = '" + $scope.user.objectId + "'"};
-			var savedObj = Backendless.Persistence.of( 'PlaceLike12' ).find( yo );
-			Backendless.Persistence.of( 'PlaceLike12' ).remove( savedObj );
+			var yo = {
+				condition: "placeId = '" + place.objectId + "' AND userId = '" + $scope.user.objectId + "'"
+			};
+			var savedObj = Backendless.Persistence.of( 'PlaceLike12' ).find( yo ).data;
+			Backendless.Persistence.of( 'PlaceLike12' ).remove( savedObj[0] );
 			$scope.placesAccepted[index].userLike = false;
 			$scope.placesAccepted[index].likes - 1;
 			for (var i = 0; i < $scope.places.length; i++) {

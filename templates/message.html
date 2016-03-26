@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+		     <div class="row">
+		     	<div class="col-md-12">
+					<div class="page-header text-center">
+						<h1>
+							Beardy App Message
+						</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" >
+				<div class="col-md-12 col-sm-12">
+					<div class="form-group">
+					  <label for="user">To:</label>
+					  <input type="text" class="form-control" id="user" ng-model="message.user">
+					</div>
+					<div class="form-group">
+					  <label for="theme">Theme:</label>
+					  <!-- <input type="text" class="form-control" id="theme" ng-model="message.theme"> -->
+					  <select class="form-control" id="theme" ng-model="message.theme">
+						  <option selected>Advice</option>
+						  <option>Error</option>
+					  </select>
+					</div>
+				</div>
+				<div class="col-md-12 col-sm-12">
+					<div class="form-group">
+					  <label for="comment">Comment:</label>
+					  <textarea class="form-control" rows="5" id="comment" placeholder="enter your message" ng-model="message.body"></textarea>
+					</div>
+				</div>
+            <div class="col-md-12 col-sm-12">
+               <button type="button" name="button" class="btn btn-default" ng-click="sendMail()">Send message</button>
+            </div>
+			</div>
+
+
+		</div>
+	</div>
+</div>
