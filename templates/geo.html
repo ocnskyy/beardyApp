@@ -15,37 +15,68 @@
 			<div class="row">
 
 				<div class="col-md-12">
+
+					<!--SELECT PANEL-->
 					<div class="row">
 						<div class="col-md-4 col-sm-4">
 							<div class="form-group">
 							  <label for="sel1">Select category:</label>
 							  <select class="form-control" id="sel1" ng-model="place.category" ng-change="getPlaces('category')">
-							    <option ng-repeat="place in places">{{place.category}}</option>
+								  <option selected>all</option>
+								  <option ng-repeat="place in places">{{place.category}}</option>
 							  </select>
 							</div>
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<div class="form-group">
 			               <label for="name">Hash tag:</label>
-			               <input type="text" class="form-control" id="name_input" ng-model="place.hash">
+			               <input type="text" class="form-control" id="name_input" ng-model="place.hash" ng-change="getPlaces('hash')">
 			            </div>
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<label for="name">Current location:</label>
-							<button type="button" name="button" class="btn btn-default">Define</button>
+							<button type="button" name="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" ng-click="getPlaces('map')">Define</button>
 						</div>
-						<div class="col-md-12 col-sm-12">
+						<!-- <div class="col-md-12 col-sm-12">
 							<button type="button" name="button" style="btn btn-default" ng-click="getPlaces()">Get Places</button>
-						</div>
+						</div> -->
 
 					</div>
 
+					<!--MODAL WINDOW-->
+					<div id="myModal" class="modal fade" role="dialog">
+					  <div class="modal-dialog">
+
+					    <!-- Modal content-->
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					        <h4 class="modal-title">Choose your position</h4>
+					      </div>
+					      <div class="modal-body">
+								<div id="googleMap" style="width:500px;height:380px;"></div>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="removeMarker()">Close</button>
+					      </div>
+					    </div>
+
+					  </div>
+					</div>
+
+					<!-- <div id="googleMap" style="width:500px;height:380px;"></div> -->
+
+					<!--PLACES-->
 					<div class="row">
 						<div class="col-md-3 col-sm-3" ng-repeat="place in placesAccepted" style="margin-bottom: 25px;">
 							<img ng-src="{{place.image}}" alt="" class="img-responsive" />
 							Category: {{place.category}}<br>
 							Description: {{place.description}}
-							{{place.hashInformation}}
+							{{place.hashInformation}}<br>
+							<i>Likes {{place.likes}}
+								<i class="glyphicon glyphicon-heart" ng-show="!place.userLike" ng-click="changeLike(place, $index)"></i>
+								<i class="glyphicon glyphicon-heart" style="color: red;" ng-show="place.userLike"  ng-click="changeLike(place, $index)"></i>
+							</i>
 						</div>
 					</div>
 					<!-- <div class="row">
